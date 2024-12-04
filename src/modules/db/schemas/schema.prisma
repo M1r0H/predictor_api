@@ -1,0 +1,24 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Model {
+  id              String         @unique @id @default(uuid())
+  name            String // Название модели
+  type            String // Тип модели (например, SVM, Random Forest)
+  version         String         @default("1.0.0") // Версия модели
+  serializedModel String // Сериализованные данные модели
+  createdBy       String // Кто обучил модель
+  createdAt       DateTime       @default(now()) // Дата создания
+  trainingData    TrainingData[] // Связь с тренировочными данными
+}
+
+model TrainingData {
+  id        String   @unique @id @default(uuid())
+  data      Json // Входные данные (в формате JSON)
+  labels    Json // Метки данных (в формате JSON)
+  modelId   String // ID связанной модели
+  model     Model    @relation(fields: [modelId], references: [id])
+  createdAt DateTime @default(now())
+}
