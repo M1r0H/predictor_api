@@ -1,10 +1,24 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { SvmModule } from "@modules/swm/svm.module";
+import { ConfigModule } from "@nestjs/config";
+import { CatchEverythingFilter } from "@src/core/filters";
+import { PrismaModule } from '@modules/db/prisma.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    // Core Module
+    PrismaModule,
+    ConfigModule.forRoot(),
+
+    // Feature Modules
+    SvmModule,
+  ],
+  providers: [
+    {
+      provide: 'APP_FILTER',
+      useClass: CatchEverythingFilter,
+    }
+  ],
 })
-export class AppModule {}
+export class AppModule {
+}

@@ -23,7 +23,6 @@
     "useDefineForClassFields": false,
     "paths": {
       "@app/*": ["src/app/*"],
-      "@core/*": ["src/core/*"],
       "@modules/*": ["src/modules/*"],
       "@src/*": ["src/*"]
     }
