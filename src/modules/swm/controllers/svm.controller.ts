@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { SvmService } from "@modules/swm/services";
+import { Controller, Get } from '@nestjs/common';
+import { SvmService } from '@modules/swm/services';
+import { TrainSVMReturnType } from '@modules/swm/types';
 
 @Controller('svm')
 export class SvmController {
@@ -7,24 +8,24 @@ export class SvmController {
   }
 
   @Get('train')
-  public train() {
+  public train(): Promise<TrainSVMReturnType> {
     return this.svmService.trainSVM();
   }
 
-  @Post('predict')
-  public predict(@Body('samples') samples: number[][]) {
-    return this.svmService.predictSVM(samples);
-  }
-
-  @Get('support-vectors')
-  public getSupportVectors() {
-    return this.svmService.getSupportVectors();
-  }
-
-  @Get('serialize')
-  public serializeModel() {
-    return this.svmService.serializeModel();
-  }
+  // @Post('predict')
+  // public predict(@Body('samples') samples: number[][]) {
+  //   return this.svmService.predictSVM(samples);
+  // }
+  //
+  // @Get('support-vectors')
+  // public getSupportVectors() {
+  //   return this.svmService.getSupportVectors();
+  // }
+  //
+  // @Get('serialize')
+  // public serializeModel() {
+  //   return this.svmService.serializeModel();
+  // }
 
   // @Get('load')
   // public loadModel(@Body('serializedModel') serializedModel: string) {

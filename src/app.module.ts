@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { SvmModule } from "@modules/swm/svm.module";
-import { ConfigModule } from "@nestjs/config";
-import { CatchEverythingFilter } from "@src/core/filters";
+import { SvmModule } from '@modules/swm/svm.module';
+import { ConfigModule } from '@nestjs/config';
+import { CatchEverythingFilter } from '@src/core/filters';
 import { PrismaModule } from '@modules/db/prisma.module';
 
 @Module({
@@ -17,7 +17,7 @@ import { PrismaModule } from '@modules/db/prisma.module';
     {
       provide: 'APP_FILTER',
       useClass: CatchEverythingFilter,
-    }
+    },
   ],
 })
 export class AppModule {

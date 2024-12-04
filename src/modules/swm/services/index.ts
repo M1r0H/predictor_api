@@ -1,1 +1,1 @@
-export * from "./svm.service";
+export * from './svm.service';

@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import * as libsvm from 'libsvm-js';
+import { SVM, SVMModel, TrainSVMReturnType } from '@modules/swm/types';
 
 @Injectable()
 export class SvmService {
-  private svmModel: any = null;
-  private SVM: any = null;
+  private svmModel: SVMModel = null;
+  private SVM: SVM = null;
 
   /**
    * Train an SVM model using the provided data and labels.
+   * @return {Object} Training results.
    */
-  public async trainSVM() {
+  public async trainSVM(): Promise<TrainSVMReturnType> {
     await this.loadSvmLibrary();
 
     const data = [
@@ -37,48 +39,51 @@ export class SvmService {
     };
   }
 
-  /**
-   * Predict labels using the trained SVM model.
-   * @param inputSamples - Array of samples for prediction.
-   */
-  public predictSVM(inputSamples: number[][]) {
-    if (!this.svmModel) {
-      throw new Error('Model is not trained. Please train the model first.');
-    }
+  // /**
+  //  * Predict labels using the trained SVM model.
+  //  * @param {Object} inputSamples - Input samples to predict.
+  //  * @return {Object} Predictions for the input samples.
+  //  */
+  // public predictSVM(inputSamples: number[][]): { inputSamples: number[][], predictions: number[] } {
+  //   if (!this.svmModel) {
+  //     throw new Error('Model is not trained. Please train the model first.');
+  //   }
+  //
+  //   const predictions = this.svmModel.predict(inputSamples);
+  //
+  //   return {
+  //     inputSamples,
+  //     predictions,
+  //   };
+  // }
 
-    const predictions = this.svmModel.predict(inputSamples);
+  // /**
+  //  * Get support vector indices from the trained model.
+  //  * @return {Object} Support vector indices.
+  //  */
+  // public getSupportVectors(): { supportVectorIndices: number[] } {
+  //   if (!this.svmModel) {
+  //     throw new Error('Model is not trained. Please train the model first.');
+  //   }
+  //
+  //   const svIndices = this.svmModel.getSVIndices();
+  //
+  //   return {
+  //     supportVectorIndices: svIndices,
+  //   };
+  // }
 
-    return {
-      inputSamples,
-      predictions,
-    };
-  }
-
-  /**
-   * Get support vector indices from the trained model.
-   */
-  public getSupportVectors() {
-    if (!this.svmModel) {
-      throw new Error('Model is not trained. Please train the model first.');
-    }
-
-    const svIndices = this.svmModel.getSVIndices();
-
-    return {
-      supportVectorIndices: svIndices,
-    };
-  }
-
-  /**
-   * Serialize the trained model for saving or reuse.
-   */
-  public serializeModel() {
-    if (!this.svmModel) {
-      throw new Error('Model is not trained. Please train the model first.');
-    }
-
-    return this.svmModel.serializeModel();
-  }
+  // /**
+  //  * Serialize the trained model for saving or reuse.
+  //  * @return {string} Serialized model string.
+  //  */
+  // public serializeModel(): any {
+  //   if (!this.svmModel) {
+  //     throw new Error('Model is not trained. Please train the model first.');
+  //   }
+  //
+  //   return this.svmModel.serializeModel();
+  // }
 
   // /**
   //  * Deserialize a model from a previously saved state.
@@ -104,8 +109,9 @@ export class SvmService {
 
   /**
    * Load the libsvm library for training and prediction.
+   * @return {Promise<void>}
    */
-  private async loadSvmLibrary() {
+  private async loadSvmLibrary(): Promise<void> {
     if (!this.SVM) {
       this.SVM = await libsvm.default;
     }

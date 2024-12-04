@@ -4,11 +4,13 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: {
-      'origin': '*',
-    },
-  });
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    {
+      cors: {
+        'origin': '*',
+      },
+    });
 
   await app.listen(process.env.PORT);
 
