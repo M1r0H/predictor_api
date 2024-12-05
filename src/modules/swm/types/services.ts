@@ -10,20 +10,25 @@ export interface SVM {
 }
 
 export interface SVMModel {
+  options: {
+    type: string;
+    kernel: string;
+    gamma: number;
+    cost: number;
+  };
+  model: number;
+  problem: number;
+
   train(data: number[][], labels: number[]): Promise<void>;
-
-  getSVIndices(): number[];
-
-  predict(inputSamples: number[][]): number[];
 
   serializeModel(): string;
 
-  load(modelState: never): void;
+  getSVIndices(): number[];
 }
 
-export interface TrainSVMReturnType {
-  message: string;
-  supportVectors: number[];
-  data: number[][];
+export interface TrainSVMParams {
+  inputData: number[][];
   labels: number[];
+  normalizationMethod: 'zscore' | 'minmax' | 'range' | 'vector';
 }
+

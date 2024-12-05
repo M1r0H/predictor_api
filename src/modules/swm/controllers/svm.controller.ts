@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { SvmService } from '@modules/swm/services';
-import { TrainSVMReturnType } from '@modules/swm/types';
+import { Model } from '@modules/swm/types';
 
 @Controller('svm')
 export class SvmController {
@@ -8,7 +8,7 @@ export class SvmController {
   }
 
   @Get('train')
-  public train(): Promise<TrainSVMReturnType> {
+  public train(): Promise<Model> {
     return this.svmService.trainSVM();
   }
 

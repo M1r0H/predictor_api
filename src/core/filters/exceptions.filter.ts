@@ -20,6 +20,7 @@ export class CatchEverythingFilter implements ExceptionFilter {
 
     const responseBody = {
       statusCode: httpStatus,
+      message: exception instanceof Error ? exception.message : exception,
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
     };

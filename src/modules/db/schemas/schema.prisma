@@ -9,20 +9,25 @@ datasource db {
 
 model Model {
   id              String         @unique @id @default(uuid())
-  name            String // Название модели
-  type            String // Тип модели (например, SVM, Random Forest)
-  version         String         @default("1.0.0") // Версия модели
-  serializedModel String // Сериализованные данные модели
-  createdBy       String // Кто обучил модель
-  createdAt       DateTime       @default(now()) // Дата создания
-  trainingData    TrainingData[] // Связь с тренировочными данными
+  name            String // Name of the model
+  type            String // Type of the model
+  version         String         @default("1.0.0") // Version of the model
+  serializedModel String // Serialized model
+  supportVector   Json // Support vector
+  createdBy       String // User ID or "system"
+  createdAt       DateTime       @default(now()) // Date of creation
+  updatedAt       DateTime? // Date of last update
+  deletedAt       DateTime? // Date of deletion
+  trainingData    TrainingData[] // Training data
 }
 
 model TrainingData {
-  id        String   @unique @id @default(uuid())
-  data      Json // Входные данные (в формате JSON)
-  labels    Json // Метки данных (в формате JSON)
-  modelId   String // ID связанной модели
-  model     Model    @relation(fields: [modelId], references: [id])
-  createdAt DateTime @default(now())
+  id        String    @unique @id @default(uuid())
+  data      Json // Input data (in JSON format)
+  labels    Json // Labels (in JSON format)
+  modelId   String // Model ID
+  createdAt DateTime  @default(now()) // Date of creation
+  updatedAt DateTime? // Date of last update
+  deletedAt DateTime? // Date of deletion
+  model     Model     @relation(fields: [modelId], references: [id])
 }
